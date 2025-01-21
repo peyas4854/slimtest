@@ -1,0 +1,21 @@
+name: Notify Discord on Merge to Master
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  notify-discord:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send Notification to Discord
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          curl -H "Content-Type: application/json" \
+            -d '{
+                  "content": "🚀 Code has been merged into **master** branch!"
+                }' \
+            $DISCORD_WEBHOOK_URL
