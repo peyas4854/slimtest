@@ -18,12 +18,19 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: Add server to known_hosts
+        run: ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+
       - name: Deploy to server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-            cd /path/to/your/project
+            set -e
+            echo "Navigating to project directory..."
+            cd /home/peyas/slimtest
+            echo "Resetting local changes..."
             git reset --hard
+            echo "Pulling latest changes from master..."
             git pull origin master
-            # Restart services if needed
-            # Example: sudo systemctl restart your-service
+            # Uncomment the next line to restart a service
+            # sudo systemctl restart your-service
           EOF
