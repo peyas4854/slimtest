@@ -18,12 +18,12 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Deploy via SSH (git pull)
-        uses: appleboy/ssh-action@v0.1.12
+        uses: appleboy/ssh-action@v0.1.7  # Use the stable version v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 4345
+          port: ${{ secrets.SSH_PORT }}
           script: |
-            cd /home/peyas/slimtest
+            cd /var/www/your_project_directory
             git pull origin master
