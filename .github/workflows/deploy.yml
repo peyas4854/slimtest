@@ -25,5 +25,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            cd /var/www/your_project_directory
+            cd /home/peyas/slimtest
             git pull origin master
