@@ -1,37 +1,29 @@
-name: Deploy to Server
+name: CI/CD Pipeline
 
 on:
   push:
     branches:
-      - master
+      - master # Trigger workflow on push to the 'master' branch
+  pull_request:
+    branches:
+      - master # Trigger workflow on pull requests targeting 'master'
 
 jobs:
   deploy:
+    name: Deploy to Production
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.7.0
+      - name: Deploy via SSH (git pull)
+        uses: appleboy/ssh-action@v0.1.12
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Add server to known_hosts
-        run: |
-          ssh-keyscan -p 4345 -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
-
-      - name: Deploy to server
-        run: |
-          ssh -p 4345 -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-            set -e
-            echo "Navigating to project directory..."
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 4345
+          script: |
             cd /home/peyas/slimtest
-            echo "Resetting local changes..."
-            git reset --hard
-            echo "Pulling latest changes from master..."
             git pull origin master
-            # Uncomment the next line to restart a service
-            # sudo systemctl restart your-service
-          EOF
