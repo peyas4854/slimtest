@@ -1,0 +1,30 @@
+name: Check if Branch is Up-to-Date with Master
+
+on:
+  pull_request:
+    branches:
+      - dev
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  check-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the pull request branch
+        uses: actions/checkout@v2
+
+      - name: Fetch master branch
+        run: |
+          git fetch origin master
+
+      - name: Check if branch is up-to-date with master
+        run: |
+          git checkout $GITHUB_HEAD_REF
+          if ! git merge-base --is-ancestor origin/master $GITHUB_HEAD_REF; then
+            echo "Branch is not up-to-date with master. Please update your branch."
+            exit 1
+          else
+            echo "Branch is up-to-date with master."
+          fi
