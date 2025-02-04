@@ -1,7 +1,5 @@
 # Master Updated README.md
-# master update 1 
-# master update 2
-# master update 3 
+# test 1 
 # Please run this for pre hook config 
 
 ```
