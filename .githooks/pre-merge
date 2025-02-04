@@ -1,6 +1,0 @@
-#!/bin/bash
-branch=$(git rev-parse --abbrev-ref HEAD)
-if [ "$branch" == "dev" ]; then
-    echo "🚫 Pulling is not allowed on the dev branch!"
-    exit 1
-fi

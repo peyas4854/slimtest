@@ -1,0 +1,5 @@
+#!/bin/sh
+echo "Merge has been completed successfully!"
+
+# You can add custom commands here. For example, run tests:
+# ./run_tests.sh

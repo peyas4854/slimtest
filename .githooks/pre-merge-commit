@@ -1,0 +1,7 @@
+#!/bin/sh
+current_branch=$(git symbolic-ref --short HEAD)
+
+if [ "$current_branch" == "dev" ]; then
+  echo "Merging into the 'dev' branch is blocked."
+  exit 1
+fi
