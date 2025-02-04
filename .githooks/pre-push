@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Get the current branch name
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+# Fetch the latest updates from the remote repository
+git fetch origin master
+
+# Check if the branch is behind master
+if ! git merge-base --is-ancestor origin/master $BRANCH; then
+    echo "ERROR: Your branch ($BRANCH) is not up-to-date with master."
+    echo "Please merge or rebase with master before pushing."
+    exit 1
+fi
+
+echo "Branch is up-to-date with master. Proceeding with push."
+exit 0
