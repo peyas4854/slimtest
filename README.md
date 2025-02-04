@@ -2,6 +2,7 @@
 # master update 1 
 # master update 2
 # tst 1 feature 
+# test 2 feature
 # Please run this for pre hook config 
 
 ```
